@@ -18,8 +18,8 @@ var ResolvableSequence = /** @class */ (function () {
     ResolvableSequence.prototype.resolved = function () {
         var _this = this;
         return function (root, args, context, info) {
-            var firstToResolve = _this.resolvables.shift();
-            return _this.resolvables.reduce(function (previousResolver, currentResolvable) {
+            var firstToResolve = _this.resolvables[0];
+            return _this.resolvables.slice(1).reduce(function (previousResolver, currentResolvable) {
                 return previousResolver.then(function () { return currentResolvable.evaluate(root, args, context, info); });
             }, firstToResolve.evaluate(root, args, context, info));
         };
