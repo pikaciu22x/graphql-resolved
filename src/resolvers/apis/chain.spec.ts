@@ -22,4 +22,12 @@ describe('chain() Api', () => {
     const me = await executor.runWithToken(resolverChain);
     expect(me.id).to.equal(1234);
   });
+
+  it('Should return me user on multiple requests', async () => {
+    const resolverChain = chain([isAuthenticated, getMe]);
+    await Promise.all([1, 2, 3].map(async () => {
+      const me = await executor.runWithToken(resolverChain);
+      expect(me.id).to.equal(1234);
+    }));
+  });
 });

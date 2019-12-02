@@ -26,8 +26,8 @@ export class ResolvableSequence<R = any> {
 
   resolved(): PureResolverFunction<R> {
     return (root, args: {}, context: {}, info) => {
-      const firstToResolve = this.resolvables.shift();
-      return this.resolvables.reduce((previousResolver, currentResolvable) => {
+      const firstToResolve = this.resolvables[0];
+      return this.resolvables.slice(1).reduce((previousResolver, currentResolvable) => {
         return previousResolver.then(() => currentResolvable.evaluate(root, args, context, info))
       }, firstToResolve.evaluate(root, args, context, info));
     }
